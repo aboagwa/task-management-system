@@ -34,6 +34,8 @@ if (isset($_POST['update'])) {
 
     if (file_put_contents($file_path, json_encode($tasks, JSON_PRETTY_PRINT))) {
         $success = "Task updated successfully!";
+        header("location: table_of_tasks.php");
+        exit();
     } else {
         $errors['failed'] = "Failed to update the task.";
     }
@@ -65,6 +67,7 @@ if (isset($_POST['update'])) {
                         <td><?= htmlspecialchars($task['due_date'] ?? 'N/A'); ?></td>
                         <td><?= htmlspecialchars($task['status'] ?? 'N/A'); ?></td>
                         <td>
+
                             <form method="POST" style="display:inline;" onsubmit="return confirmDelete();">
                                 <input type="hidden" name="delete_id" value="<?= htmlspecialchars($task['id']); ?>">
                                 <button type="submit" name="delete" class="btn btn-danger btn-sm">Delete</button>
