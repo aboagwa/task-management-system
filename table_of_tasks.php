@@ -34,6 +34,7 @@ if (isset($_POST['update'])) {
 
     if (file_put_contents($file_path, json_encode($tasks, JSON_PRETTY_PRINT))) {
         $success = "Task updated successfully!";
+        header('location:tasks_table.php');
     } else {
         $errors['failed'] = "Failed to update the task.";
     }
