@@ -1,17 +1,17 @@
-<?php include('header.php'); 
-include('create-task.php');
+<?php 
+include('header.php'); 
+include('create-task.php'); 
 
 if (isset($_POST['edit_id'])) {
-    foreach($tasks as $task) {  
-        
+    foreach ($tasks as $task) {  
         if ($task['id'] == $_POST['edit_id']) {
-        $edit_id = $task['id'];
-        $title = $task['title'];
-        $description = $task['description'];
-        $due_date = $task['due_date'];
-        $status = $task['status'];
-        break;   
-    }
+            $edit_id = $task['id'];
+            $title = $task['title'];
+            $description = $task['description'];
+            $due_date = $task['due_date'];
+            $status = $task['status'];
+            break;   
+        }
     }
 }
 
@@ -22,17 +22,18 @@ if (isset($_POST['update'])) {
     $due_date = $_POST['due_date'];
     $status = $_POST['status'];
 
-    $edited_task = [
-        'id' => $task_id,
-        'title' => $title,
-        'description' => $description,
-        'due_date' => $due_date,
-        'status' => $status,
-    ];
+    foreach ($tasks as &$task) { 
+        if ($task['id'] == $task_id) {
+            $task['title'] = $title;
+            $task['description'] = $description;
+            $task['due_date'] = $due_date;
+            $task['status'] = $status;
+            break;
+        }
+    }
 
     if (file_put_contents($file_path, json_encode($tasks, JSON_PRETTY_PRINT))) {
         $success = "Task updated successfully!";
-        $editing_task = $task;
     } else {
         $errors['failed'] = "Failed to update the task.";
     }
